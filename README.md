@@ -195,6 +195,8 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	```	
 
 	Con lo anterior, registre un nuevo plano (para 'diseñar' un objeto jSON, puede usar [esta herramienta](http://www.jsoneditoronline.org/)):
+
+	Nota: puede basarse en el formato jSON mostrado en el navegador al consultar una orden con el método GET.
 	
 	Para crear el plano se utilizó el siguiente comando:
 
@@ -202,10 +204,11 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	curl -i -X POST -H "Content-Type: application/json" -HAccept:application/json http://localhost:8080/blueprints/post -d '{"author":"Pablo","points":[{"x":130,"y":103},{"x":500,"y":540},{"x":500,"y":504},{"x":506,"y":544},{"x":32,"y":45},{"x":160,"y":132},{"x":135,"y":101}],"name":"Blueprint de Pablo"}'
 	```
 
-	Nota: puede basarse en el formato jSON mostrado en el navegador al consultar una orden con el método GET.
-
-
 3. Teniendo en cuenta el autor y numbre del plano registrado, verifique que el mismo se pueda obtener mediante una petición GET al recurso '/blueprints/{author}/{bpname}' correspondiente.
+
+	Al hacer la consulta teniendo en cuenta que **bpname** es igual a _Blueprint de Pablo_ y **author** igual a _Pablo_ se obtiene el siguiente resultado:
+
+	![](img/Salida_Formato_JSON_6.png)
 
 4. Agregue soporte al verbo PUT para los recursos de la forma '/blueprints/{author}/{bpname}', de manera que sea posible actualizar un plano determinado.
 
