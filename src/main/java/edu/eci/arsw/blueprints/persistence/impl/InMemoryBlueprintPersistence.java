@@ -36,6 +36,19 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         Blueprint bp=new Blueprint("_authorname_", "_bpname_ ",pts);
         blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
         
+        Point[] pointsCamilo = new Point[] {new Point(10, 10), new Point(12, 15), new Point(30, 54), 
+				new Point(30, 54), new Point(30, 54), new Point(3, 5), new Point(10,12)};
+		Blueprint bp1 = new Blueprint("Camilo", "Blueprint 1", pointsCamilo);
+		blueprints.put(new Tuple<>(bp1.getAuthor(),bp1.getName()), bp1);
+
+		Point[] pointsAndres = new Point[] {new Point(13, 13), new Point(50, 54), new Point(50, 54), 
+				new Point(50, 54), new Point(3, 5), new Point(10,12), new Point(15, 10)};
+		Blueprint bp2 = new Blueprint("Andres", "Blueprint 2", pointsAndres);
+		blueprints.put(new Tuple<>(bp2.getAuthor(),bp2.getName()), bp2);
+		
+		Point[] pointsCamilo1 = new Point[] {new Point(10, 10), new Point(30, 54), new Point(12,12)};
+		Blueprint bp3 = new Blueprint("Camilo", "Blueprint 3", pointsCamilo1);
+		blueprints.put(new Tuple<>(bp3.getAuthor(),bp3.getName()), bp3);
     }    
     
     @Override
@@ -57,15 +70,23 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 	public Set<Blueprint> getBlueprintsByAuthor(String author) {
 		Set<Blueprint> setBlueprintsByAuthor = new HashSet<Blueprint>();
 		blueprints.forEach((k,v) -> {
-			//System.out.println("Llave: " + k + " - Nombre: " + v.getName() + " - Autor: " + v.getAuthor());
 			String authorTemp = v.getAuthor();
 			if (authorTemp.equals(author)) {
-				//System.out.println(" Agregado " + v.getName()); 
 				setBlueprintsByAuthor.add(v);
 			}
 		});
 		
 		return setBlueprintsByAuthor;
+	}
+
+	@Override
+	public Set<Blueprint> getAllBlueprints() {
+		Set<Blueprint> setAllBlueprints = new HashSet<Blueprint>();
+		blueprints.forEach((k,v) -> {
+			setAllBlueprints.add(v);
+		});
+		
+		return setAllBlueprints;
 	}
     
 }

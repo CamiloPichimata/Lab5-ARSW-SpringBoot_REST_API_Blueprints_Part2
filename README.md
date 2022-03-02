@@ -59,12 +59,29 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	```
 	Y luego enviando una petición GET a: http://localhost:8080/blueprints. Rectifique que, como respuesta, se obtenga un objeto jSON con una lista que contenga el detalle de los planos suministados por defecto, y que se haya aplicado el filtrado de puntos correspondiente.
 
+	Al hacer la petición se puede ver la siguiente salida, la cual muestra los 4 Blueprint especificados por defecto:
+
+	![](img/Salida_Formato_JSON_1.png)
 
 5. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}, el cual retorne usando una representación jSON todos los planos realizados por el autor cuyo nombre sea {author}. Si no existe dicho autor, se debe responder con el código de error HTTP 404. Para esto, revise en [la documentación de Spring](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html), sección 22.3.2, el uso de @PathVariable. De nuevo, verifique que al hacer una petición GET -por ejemplo- a recurso http://localhost:8080/blueprints/juan, se obtenga en formato jSON el conjunto de planos asociados al autor 'juan' (ajuste esto a los nombres de autor usados en el punto 2).
 
+	Al realizar la petición utilizando como parámetro el autor _Camilo_ se obtuvo la siguiente respuesta con los dos planos asociados a este:
+
+	![](img/Salida_Formato_JSON_2.png)
+
+	Al ingresar un autor que no existe, por ejemplo _Juan_ se obtiene lo siguiente: 
+
+	![](img/Salida_Formato_JSON_3.png)
+
 6. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}/{bpname}, el cual retorne usando una representación jSON sólo UN plano, en este caso el realizado por {author} y cuyo nombre sea {bpname}. De nuevo, si no existe dicho autor, se debe responder con el código de error HTTP 404. 
 
+	Al hacer la colsulta con **bpname** igual a _Blueprint 1_ y **author** igual a _Andres_ se obtiene el siguiente resultado:
 
+	![](img/Salida_Formato_JSON_4.png)
+
+	Al realizar la petición con datos erroneos, por ejemplo **bpname** igual a _qwerty_ y **author** igual a _Juan_  se obtiene lo siguiente:
+
+	![](img/Salida_Formato_JSON_5.png)
 
 ### Parte II
 

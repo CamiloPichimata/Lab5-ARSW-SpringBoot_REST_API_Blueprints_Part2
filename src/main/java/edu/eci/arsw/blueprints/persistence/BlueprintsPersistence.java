@@ -38,4 +38,11 @@ public interface BlueprintsPersistence {
      * @return Blueprints of the given author
      */
     public Set<Blueprint> getBlueprintsByAuthor(String author);
+    
+    /**	
+     * 
+     * @return all blueprints
+     */
+    public Set<Blueprint> getAllBlueprints();
+    
 }

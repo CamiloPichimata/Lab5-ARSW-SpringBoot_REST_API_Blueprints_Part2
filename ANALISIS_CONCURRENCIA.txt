@@ -1,0 +1,10 @@
+- Condiciones de carrera que se podrían presentar:
+
+	La colección en la que se están almacenando todos los objetos de tipo Blueprint de typo HashMap<> permite que se presenten codiciones de carrera, por ejemplo si dos usuarios se encuentran editando un mapa, al mismo tiempo, al terminarsen los dos procedimientos, el resultado puede ser algo muy diferente al que se esperaba, en el que la respuesta puede depender de los cambios que haga cada usuario y del como se lleven las transacciones.
+
+	Otra condición de carrera que puede materializarse es cuando se va a guardar un plano en la colección antes mencionada, ya que puede suceder que un proceso revise la colección para saber si ya está ese plano en esta y la respuesta del sistema es que no lo está, pero mientras va a guardarla en otro proceso se almacena dicha colección, lo que hace que se materialice el error.
+
+
+- Regiones críticas
+
+	En este proyecto la región crítica presente es la colección o medios de almacenamiento de los planos, ya que no debe ser accedida por más de un proceso a la vez, para evitar que se corrompan los datos.
