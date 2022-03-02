@@ -199,7 +199,7 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	Para crear el plano se utilizó el siguiente comando:
 
 	```
-	curl -i -X POST -HContentcurl-Type:application/json -HAccept:application/json http://localhost:8080/blueprints/post -d '{"author":"Pablo","points":[{"x":130,"y":103},{"x":500,"y":540},{"x":500,"y":504},{"x":506,"y":544},{"x":32,"y":45},{"x":160,"y":132},{"x":135,"y":101}],"name":"Blueprint de Pablo"}'
+	curl -i -X POST -H "Content-Type: application/json" -HAccept:application/json http://localhost:8080/blueprints/post -d '{"author":"Pablo","points":[{"x":130,"y":103},{"x":500,"y":540},{"x":500,"y":504},{"x":506,"y":544},{"x":32,"y":45},{"x":160,"y":132},{"x":135,"y":101}],"name":"Blueprint de Pablo"}'
 	```
 
 	Nota: puede basarse en el formato jSON mostrado en el navegador al consultar una orden con el método GET.
