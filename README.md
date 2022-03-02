@@ -101,6 +101,20 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	}
 	```	
 
+	La implementación realizada es la siguiente:
+
+	``` java
+	@RequestMapping(method = RequestMethod.POST, value = "/blueprints/post", consumes = {"application/json"})	
+    public ResponseEntity<?> manejadorPostRecursoNewBlueprint(@RequestBody Blueprint newBlueprint){
+        try {
+        	bps.addNewBlueprint(newBlueprint);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception ex) {
+            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Se ha presentado un error al realizar el registro", HttpStatus.FORBIDDEN);            
+        }        
+    }
+	```
 
 2.  Para probar que el recurso ‘planos’ acepta e interpreta
     correctamente las peticiones POST, use el comando curl de Unix. Este
@@ -115,6 +129,11 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 
 	Con lo anterior, registre un nuevo plano (para 'diseñar' un objeto jSON, puede usar [esta herramienta](http://www.jsoneditoronline.org/)):
 	
+	Para crear el plano se utilizó el siguiente comando:
+
+	```
+	curl -i -X POST -HContentcurl-Type:application/json -HAccept:application/json http://localhost:8080/blueprints/post -d '{"author":"Pablo","points":[{"x":130,"y":103},{"x":500,"y":540},{"x":500,"y":504},{"x":506,"y":544},{"x":32,"y":45},{"x":160,"y":132},{"x":135,"y":101}],"name":"Blueprint de Pablo"}'
+	```
 
 	Nota: puede basarse en el formato jSON mostrado en el navegador al consultar una orden con el método GET.
 
