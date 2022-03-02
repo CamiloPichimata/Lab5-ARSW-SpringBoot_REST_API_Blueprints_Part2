@@ -111,7 +111,7 @@ public class BlueprintAPIController {
 	}
     
     
-    @RequestMapping(method = RequestMethod.POST, value = "/blueprints/post", consumes = {"*/*"})	
+    @RequestMapping(method = RequestMethod.POST, value = "/blueprints/post", consumes="application/json")	
     public ResponseEntity<?> manejadorPostRecursoNewBlueprint(@RequestBody Blueprint newBlueprint){
         try {
         	bps.addNewBlueprint(newBlueprint);
@@ -139,4 +139,3 @@ public class BlueprintAPIController {
 		}*/
 	}
 }
-
