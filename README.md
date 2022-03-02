@@ -50,12 +50,33 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	```
 	* Haga que en esta misma clase se inyecte el bean de tipo BlueprintServices (al cual, a su vez, se le inyectarán sus dependencias de persisntecia y de filtrado de puntos).
 
+	La implementación realizada es la siguiente:
+
+	``` java
+	@RestController
+	public class BlueprintAPIController {
+	
+		@Autowired
+		BlueprintsServices bps;
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/blueprints")
+		public ResponseEntity<?> manejadorGetRecursoAllBlueprints() {
+			try {
+				Set<Blueprint> data = bps.getAllBlueprints();
+				return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+			} catch (Exception e) {
+				Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
+				return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	}
+	```
+
 4. Verifique el funcionamiento de a aplicación lanzando la aplicación con maven:
 
 	```bash
 	$ mvn compile
 	$ mvn spring-boot:run
-	
 	```
 	Y luego enviando una petición GET a: http://localhost:8080/blueprints. Rectifique que, como respuesta, se obtenga un objeto jSON con una lista que contenga el detalle de los planos suministados por defecto, y que se haya aplicado el filtrado de puntos correspondiente.
 
@@ -64,6 +85,29 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	![](img/Salida_Formato_JSON_1.png)
 
 5. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}, el cual retorne usando una representación jSON todos los planos realizados por el autor cuyo nombre sea {author}. Si no existe dicho autor, se debe responder con el código de error HTTP 404. Para esto, revise en [la documentación de Spring](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html), sección 22.3.2, el uso de @PathVariable. De nuevo, verifique que al hacer una petición GET -por ejemplo- a recurso http://localhost:8080/blueprints/juan, se obtenga en formato jSON el conjunto de planos asociados al autor 'juan' (ajuste esto a los nombres de autor usados en el punto 2).
+
+	La implementación realizada es la siguiente:
+
+	``` java
+	@RequestMapping(method = RequestMethod.GET, value = "/blueprints/{author}")
+    public ResponseEntity<?> manejadorGetRecursoBlueprintsByAutor(@PathVariable String author) {
+    	try {
+    		Set<Blueprint> data = bps.getBlueprintsByAuthor(author);
+    		if (data.isEmpty()) {
+    			throw new BlueprintNotFoundException("No se han encontrado Blueprints para el autor: " + author);
+    		}
+    		return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+    		
+    	} catch (BlueprintNotFoundException ex) {
+    		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<>("Error 404: No se han encontrado Blueprints para el autor: " + author, HttpStatus.NOT_FOUND);
+			
+		} catch (Exception e) {
+			Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
+			return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	```
 
 	Al realizar la petición utilizando como parámetro el autor _Camilo_ se obtuvo la siguiente respuesta con los dos planos asociados a este:
 
@@ -74,6 +118,29 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	![](img/Salida_Formato_JSON_3.png)
 
 6. Modifique el controlador para que ahora, acepte peticiones GET al recurso /blueprints/{author}/{bpname}, el cual retorne usando una representación jSON sólo UN plano, en este caso el realizado por {author} y cuyo nombre sea {bpname}. De nuevo, si no existe dicho autor, se debe responder con el código de error HTTP 404. 
+
+	La implementación realizada es la siguiene:
+
+	``` java
+	@RequestMapping(method = RequestMethod.GET, value = "/blueprints/{author}/{bpname}")
+    public ResponseEntity<?> manejadorGetRecursoBlueprint(@PathVariable String author, @PathVariable String bpname) {
+    	try {
+    		Blueprint data = bps.getBlueprint(author, bpname);
+    		if (data == null) {
+    			throw new BlueprintNotFoundException("No se ha encontrado un Blueprint llamado '" + bpname + "' para el autor '" + author + "'");
+    		}
+    		return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+    		
+    	} catch (BlueprintNotFoundException ex) {
+    		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<>("Error 404: No se ha encontrado un Blueprint llamado '" + bpname + "' para el autor '" + author + "'", HttpStatus.NOT_FOUND);
+			
+		} catch (Exception e) {
+			Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
+			return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	```
 
 	Al hacer la colsulta con **bpname** igual a _Blueprint 1_ y **author** igual a _Andres_ se obtiene el siguiente resultado:
 
@@ -142,6 +209,26 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 
 4. Agregue soporte al verbo PUT para los recursos de la forma '/blueprints/{author}/{bpname}', de manera que sea posible actualizar un plano determinado.
 
+	La implemtación realizada es la siguiente
+
+	``` java
+	@RequestMapping(method = RequestMethod.PUT, value = "/blueprints/{author}/{bpname}")
+    public ResponseEntity<?> manejadorPutRecursoBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint setBlueprint) {
+    	try {
+    		bps.setBlueprint(author, bpname, setBlueprint);
+    		
+    		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    		
+    	} catch (BlueprintNotFoundException ex) {
+    		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<>("Error 404: No se ha encontrado un Blueprint llamado '" + bpname + "' para el autor '" + author + "'", HttpStatus.NOT_FOUND);
+			
+		} catch (Exception e) {
+			Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
+			return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	```
 
 ### Parte III
 

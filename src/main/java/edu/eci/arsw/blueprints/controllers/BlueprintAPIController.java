@@ -38,9 +38,6 @@ import edu.eci.arsw.blueprints.services.BlueprintsServices;
 //@RequestMapping(value = "/blueprints")
 public class BlueprintAPIController {
 	
-	//ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
-	//BlueprintsServices bps = ac.getBean(BlueprintsServices.class);
-    
 	@Autowired
 	BlueprintsServices bps;
 	
@@ -114,16 +111,32 @@ public class BlueprintAPIController {
 	}
     
     
-    @RequestMapping(method = RequestMethod.POST, value = "/blueprints/post", consumes = {"application/json"})	
+    @RequestMapping(method = RequestMethod.POST, value = "/blueprints/post", consumes = {"*/*"})	
     public ResponseEntity<?> manejadorPostRecursoNewBlueprint(@RequestBody Blueprint newBlueprint){
         try {
         	bps.addNewBlueprint(newBlueprint);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
-        	//ex.printStackTrace();
             Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Se ha presentado un error al realizar el registro", HttpStatus.FORBIDDEN);            
         }        
     }
+    
+    @RequestMapping(method = RequestMethod.PUT, value = "/blueprints/{author}/{bpname}")
+    public ResponseEntity<?> manejadorPutRecursoBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint setBlueprint) {
+    	try {
+    		//bps.setBlueprint(author, bpname, setBlueprint);
+    		
+    		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    		
+    	} catch (/*BlueprintNotFound*/Exception ex) {
+    		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
+			return new ResponseEntity<>("Error 404: No se ha encontrado un Blueprint llamado '" + bpname + "' para el autor '" + author + "'", HttpStatus.NOT_FOUND);
+			
+		} /*catch (Exception e) {
+			Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
+			return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}*/
+	}
 }
 
