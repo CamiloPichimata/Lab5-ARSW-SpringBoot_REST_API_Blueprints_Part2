@@ -127,7 +127,7 @@ public class BlueprintAPIController {
     	try {
     		bps.setBlueprint(author, bpname, setBlueprint.getPoints());
     		
-    		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    		return new ResponseEntity<>(HttpStatus.OK);
     		
     	} catch (BlueprintNotFoundException ex) {
     		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
