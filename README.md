@@ -218,7 +218,7 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	@RequestMapping(method = RequestMethod.PUT, value = "/blueprints/{author}/{bpname}")
     public ResponseEntity<?> manejadorPutRecursoBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint setBlueprint) {
     	try {
-    		bps.setBlueprint(author, bpname, setBlueprint);
+    		bps.setBlueprint(author, bpname, setBlueprint.getPoints());
     		
     		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     		
