@@ -5,9 +5,11 @@
  */
 package edu.eci.arsw.blueprints.persistence;
 
+import java.util.List;
 import java.util.Set;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.model.Point;
 
 /**
  *
@@ -26,7 +28,7 @@ public interface BlueprintsPersistence {
     /**
      * 
      * @param author blueprint's author
-     * @param bprintname blueprint's author
+     * @param bprintname blueprint's name
      * @return the blueprint of the given name and author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
@@ -44,5 +46,14 @@ public interface BlueprintsPersistence {
      * @return all blueprints
      */
     public Set<Blueprint> getAllBlueprints();
+    
+    /**
+     * 
+     * @param author blueprint´s author
+     * @param name blueprint's name
+     * @param points New set of blueprint´s points
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    public void setBlueprint(String author, String name, List<Point> points) throws BlueprintNotFoundException;
     
 }

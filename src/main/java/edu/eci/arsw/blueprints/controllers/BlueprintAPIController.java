@@ -125,17 +125,17 @@ public class BlueprintAPIController {
     @RequestMapping(method = RequestMethod.PUT, value = "/blueprints/{author}/{bpname}")
     public ResponseEntity<?> manejadorPutRecursoBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint setBlueprint) {
     	try {
-    		//bps.setBlueprint(author, bpname, setBlueprint);
+    		bps.setBlueprint(author, bpname, setBlueprint.getPoints());
     		
     		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     		
-    	} catch (/*BlueprintNotFound*/Exception ex) {
+    	} catch (BlueprintNotFoundException ex) {
     		Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
 			return new ResponseEntity<>("Error 404: No se ha encontrado un Blueprint llamado '" + bpname + "' para el autor '" + author + "'", HttpStatus.NOT_FOUND);
 			
-		} /*catch (Exception e) {
+		} catch (Exception e) {
 			Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, e);
 			return new ResponseEntity<>("Error: Se ha presentado un error", HttpStatus.INTERNAL_SERVER_ERROR);
-		}*/
+		}
 	}
 }

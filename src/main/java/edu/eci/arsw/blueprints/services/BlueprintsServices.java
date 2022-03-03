@@ -11,7 +11,9 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
+
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +77,14 @@ public class BlueprintsServices {
     	return bpf.filtering(bpp.getBlueprint(author, name));
     }
     
+    /**
+     * 
+     * @param author blueprint's author
+     * @param name blueprint's name
+     * @param points New set of blueprint´s points
+     * @throws BlueprintNotFoundException 
+     */
+    public void setBlueprint(String author, String name, List<Point> points) throws BlueprintNotFoundException {
+    	bpp.setBlueprint(author, name, points);
+    }
 }

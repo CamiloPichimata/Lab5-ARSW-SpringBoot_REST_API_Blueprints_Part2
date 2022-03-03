@@ -11,14 +11,12 @@ import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 
-import java.net.http.HttpRequest.BodyPublisher;
-import java.util.AbstractSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.objenesis.instantiator.basic.NewInstanceInstantiator;
 import org.springframework.stereotype.Service;
 
 /**
@@ -87,6 +85,12 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 		});
 		
 		return setAllBlueprints;
+	}
+
+	@Override
+	public void setBlueprint(String author, String bpname, List<Point> points) throws BlueprintNotFoundException {
+		Blueprint bp = getBlueprint(author, bpname);
+		bp.setPoints(points);
 	}
     
 }
