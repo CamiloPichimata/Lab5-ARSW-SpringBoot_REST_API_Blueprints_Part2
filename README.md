@@ -233,6 +233,14 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	}
 	```
 
+	 Para realizar la actualización de la información del plano se ejecuta el siguente comando:
+
+	 ```
+	 curl -i -X PUT -H "Content-Type: application/json" -HAccept:application/json http://localhost:8080/blueprints/Camilo/Blueprint%201 -d '{"author":"Camilo","points":[{"x":104,"y":182},{"x":304,"y":554},{"x":63,"y":35},{"x":110,"y":122}],"name":"Blueprint 1"}'
+
+	 curl -X PUT -d '{"author":"Camilo","points":[{"x":10,"y":10},{"x":12,"y":12}],"name":"Blueprint3"}' -H "Content-Type: application/json" http://localhost:8080/blueprints/Camilo/Blueprint3
+	 ``` 
+
 ### Parte III
 
 El componente BlueprintsRESTAPI funcionará en un entorno concurrente. Es decir, atederá múltiples peticiones simultáneamente (con el stack de aplicaciones usado, dichas peticiones se atenderán por defecto a través múltiples de hilos). Dado lo anterior, debe hacer una revisión de su API (una vez funcione), e identificar:
