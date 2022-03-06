@@ -8,3 +8,8 @@
 - Regiones críticas
 
 	En este proyecto la región crítica presente es la colección o medios de almacenamiento de los planos, ya que no debe ser accedida por más de un proceso a la vez, para evitar que se corrompan los datos.
+
+
+- Solución
+
+	Para dar solución a estas condiciones de carrera se actualizó la colección en la que se estaban almacenando los datos que era de tipo HashMap, por una colección de tipo CondurrentHashMap, esto hace que sea seguro realizar las diferentes operaciones de actualización cuando varios hilos están accediendo al mismo tiempo, impidiendo que se pierda la integridad de los datos.
