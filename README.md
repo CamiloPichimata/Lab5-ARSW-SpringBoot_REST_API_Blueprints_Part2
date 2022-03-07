@@ -236,7 +236,7 @@ Del anterior diagrama de componentes (de alto nivel), se desprendió el siguient
 	 Para realizar la actualización de la información del plano con **bpname** igual a _Blueprint3_ y **author** igual a _Camilo_ se ejecuta el siguente comando:
 
 	```
-	curl -X PUT -d {"author":"Camilo","points":[{"x":10,"y":10},{"x":12,"y":12},{"x":10,"y":10},{"x":12,"y":12}],"name":"Blueprint3"}' -H "Content-Type: application/json" http://localhost:8080/blueprints/Camilo/Blueprint3
+	curl -X PUT -d '{"author":"Camilo","points":[{"x":10,"y":10},{"x":12,"y":12},{"x":10,"y":10},{"x":12,"y":12}],"name":"Blueprint3"}' -H "Content-Type: application/json" http://localhost:8080/blueprints/Camilo/Blueprint3
 	``` 
 
 	Al realizar la consulta desde el navegador se puede verificar la altualización de los puntos del plano:
